@@ -1,84 +1,64 @@
-# Feature Selection Using Particle Swarm Optimization (PSO) in Bio-Mathematics
+# Feature Selection using PSO for Breast Cancer Classification
 
-This project demonstrates feature selection on the **Breast Cancer dataset** using **Particle Swarm Optimization (PSO)** combined with a **Decision Tree Classifier**. It is designed as part of a **Bio-Mathematics course task**.
-
----
-
-## Table of Contents
-- [Introduction](#introduction)
-- [Dataset](#dataset)
-- [Methodology](#methodology)
-  - [Particle Swarm Optimization](#particle-swarm-optimization)
-  - [Fitness Function](#fitness-function)
-- [Implementation Steps](#implementation-steps)
-- [Results](#results)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
-- [License](#license)
-
----
-
-## Introduction
-Feature selection is a key step in improving model performance and interpretability. This project uses PSO to automatically select the most informative features from the Breast Cancer dataset to train a Decision Tree Classifier.
+## Overview
+This project implements a **feature selection method using Particle Swarm Optimization (PSO)** combined with a **Decision Tree Classifier** to classify breast cancer data. The main goal is to select the most informative features from the dataset while maintaining high classification accuracy. This task is part of the **Bio-Mathematics coursework**.
 
 ---
 
 ## Dataset
-The project uses the **Breast Cancer Wisconsin dataset** from `sklearn.datasets`. It consists of:
-
-- **Number of features:** 30  
-- **Number of samples:** 569  
-- **Target:** Malignant (0) or Benign (1) tumors
+- **Source:** `sklearn.datasets.load_breast_cancer()`
+- **Features:** 30 numeric features describing cell nuclei properties.
+- **Target:** Binary classification (malignant or benign).
+- **Data Split:** 80% training, 20% testing.
 
 ---
 
 ## Methodology
 
-### Particle Swarm Optimization
-PSO is an optimization algorithm inspired by the social behavior of birds and fish. Particles explore the search space to find the optimal subset of features by updating their velocities and positions based on **personal best** and **global best** scores.
+### 1. Particle Swarm Optimization (PSO)
+- PSO is used to optimize feature selection.
+- Each particle represents a potential subset of features with values between 0 and 1.
+- Features with a particle position > 0.5 are selected.
+- Fitness function combines:
+  - Classification error using cross-validated Decision Tree.
+  - Fraction of selected features to penalize large feature sets.
 
-### Fitness Function
-The fitness function evaluates the quality of a feature subset by combining:
-- **Classification error** from cross-validation using a Decision Tree
-- **Fraction of features selected** to penalize large subsets
+### 2. Decision Tree Classifier
+- Used to evaluate the predictive power of selected features.
+- Accuracy is measured using cross-validation during PSO optimization and final testing.
 
-The goal is to **minimize the fitness score**.
+### 3. PSO Parameters
+- Number of particles: 3
+- Maximum iterations: 10
+- Inertia weight (w): 0.7
+- Personal and global coefficients (c1, c2): 2.0
+- Random factors (r1, r2): 0.5, 0.3
 
 ---
 
 ## Implementation Steps
-1. **Import libraries**: `numpy`, `sklearn` modules
-2. **Load and split dataset**: Training (80%) and Testing (20%)
-3. **Initialize PSO parameters**:
-   - Number of particles
-   - Maximum iterations
-   - Inertia weight, cognitive & social coefficients
-4. **Run PSO loop**:
-   - Update particle velocities and positions
-   - Evaluate fitness scores
-   - Update personal and global bests
-5. **Select optimal features** and train a Decision Tree
-6. **Evaluate model performance** on test data:
-   - Compare accuracy using all features vs selected features
+1. Import necessary libraries.
+2. Load and prepare the breast cancer dataset.
+3. Initialize particles and velocities.
+4. Evaluate particles using the fitness function.
+5. Update personal bests and global best iteratively.
+6. Determine the final selected features.
+7. Train Decision Tree on selected features and evaluate on test data.
+8. Compare with a model trained on all features.
 
 ---
 
 ## Results
-- **Number of selected features:** `X` (based on final PSO output)  
-- **Selected features:** `List of features`  
-- **Accuracy with selected features:** `accuracy_selected`  
-- **Accuracy with all features:** `accuracy_all`  
+- Number of selected features: *[dynamic based on PSO run]*
+- Selected features: *[dynamic based on PSO run]*
+- Accuracy with selected features: *[dynamic based on test evaluation]*
+- Accuracy with all features: *[dynamic based on test evaluation]*
 
-This shows how PSO can effectively reduce dimensionality while maintaining high model accuracy.
+**Observation:** Feature selection reduces the dataset dimensionality while maintaining or improving classification performance.
 
 ---
 
-## Dependencies
-- Python >= 3.8  
-- numpy  
-- scikit-learn  
-
-Install dependencies via pip:
-
+## Usage
+1. Clone the repository:
 ```bash
-pip install numpy scikit-learn
+git clone https://github.com/your-username/repo-name.git
